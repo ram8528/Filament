@@ -9,6 +9,8 @@ use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Filament\Tables\Filters\SelectFilter;
+use Filament\Actions\BulkAction;
+use Illuminate\Database\Eloquent\Collection;
 
 class PostsTable
 {
@@ -24,6 +26,13 @@ class PostsTable
                     ->searchable(),
                 ImageColumn::make('featured_image'),
                 TextColumn::make('status')
+                    ->badge()
+                    ->color(fn($state): string => match (strtolower((string) $state)) {
+                        'published' => 'success',
+                        'draft' => 'gray',
+                        'archived' => 'danger',
+                        default => 'warning',
+                    })
                     ->searchable(),
                 TextColumn::make('published_at')
                     ->dateTime()
@@ -62,11 +71,42 @@ class PostsTable
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
+                    BulkAction::make('publish')
+                        ->label('Publish Selected Posts')
+                        ->icon('heroicon-o-check-circle')
+                        ->requiresConfirmation()
+                        ->action(function (Collection $records): void {
+                            $records->each(function ($record): void {
+                                $record->update([
+                                    'status' => 'published',
+                                    'published_at' => now(),
+                                ]);
+                            });
+                        })
+                        ->successNotificationTitle(
+                            'Selected posts published successfully!'
+                        )
+                        ->deselectRecordsAfterCompletion(),
+                    BulkAction::make('draft')
+                        ->label('Draft Selected Posts')
+                        ->icon('heroicon-o-pencil-square')
+                        ->requiresConfirmation()
+                        ->action(function (Collection $records): void {
+                            $records->each(function ($record): void {
+                                $record->update([
+                                    'status' => 'draft',
+                                ]);
+                            });
+                        })
+                        ->successNotificationTitle(
+                            'Selected posts drafted successfully!'
+                        )
+                        ->deselectRecordsAfterCompletion(),
                     DeleteBulkAction::make()
                         ->label('Delete Selected Post')
                         ->requiresConfirmation()
                         ->successNotificationTitle(
-                            'Selected categories deleted successfully!'
+                            'Selected posts deleted successfully!'
                         ),
                 ]),
             ]);
