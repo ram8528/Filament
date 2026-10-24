@@ -76,12 +76,14 @@ class PostsTable
                         ->icon('heroicon-o-check-circle')
                         ->requiresConfirmation()
                         ->action(function (Collection $records): void {
-                            $records->each(function ($record): void {
-                                $record->update([
-                                    'status' => 'published',
-                                    'published_at' => now(),
-                                ]);
-                            });
+                            $records
+                                ->where('status', 'draft')
+                                ->each(function ($record): void {
+                                    $record->update([
+                                        'status' => 'published',
+                                        'published_at' => now(),
+                                    ]);
+                                });
                         })
                         ->successNotificationTitle(
                             'Selected posts published successfully!'
@@ -92,11 +94,14 @@ class PostsTable
                         ->icon('heroicon-o-pencil-square')
                         ->requiresConfirmation()
                         ->action(function (Collection $records): void {
-                            $records->each(function ($record): void {
-                                $record->update([
-                                    'status' => 'draft',
-                                ]);
-                            });
+                            $records
+                                ->where('status', 'published')
+                                ->each(function ($record): void {
+                                    $record->update([
+                                        'status' => 'draft',
+                                        'published_at' => null,
+                                    ]);
+                                });
                         })
                         ->successNotificationTitle(
                             'Selected posts drafted successfully!'
