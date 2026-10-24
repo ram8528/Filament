@@ -22,7 +22,10 @@ class EditPost extends EditRecord
     protected function getHeaderActions(): array
     {
         return [
-            DeleteAction::make(),
+            DeleteAction::make()
+                ->label('Delete Post')
+                ->requiresConfirmation()
+                ->successNotificationTitle('Post Deleted Successfully'),
         ];
     }
 }
