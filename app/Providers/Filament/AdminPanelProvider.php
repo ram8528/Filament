@@ -19,6 +19,7 @@ use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use App\Filament\Widgets\EmployeeStats;
+use App\Filament\Widgets\EmployeesByDepartmentChart;
 
 class AdminPanelProvider extends PanelProvider
 {
@@ -42,6 +43,7 @@ class AdminPanelProvider extends PanelProvider
                 AccountWidget::class,
                 FilamentInfoWidget::class,
                 EmployeeStats::class,
+                EmployeesByDepartmentChart::class,
             ])
             ->middleware([
                 EncryptCookies::class,
