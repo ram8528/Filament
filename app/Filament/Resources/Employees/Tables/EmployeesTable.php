@@ -83,6 +83,13 @@ class EmployeesTable
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
+
+                TextColumn::make('employee_code')
+                    ->label('Employee ID')
+                    ->searchable()
+                    ->sortable()
+                    ->copyable()
+                    ->placeholder('Not generated'),
             ])
             ->filters([
                 SelectFilter::make('department')
