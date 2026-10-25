@@ -20,6 +20,8 @@ use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use App\Filament\Widgets\EmployeeStats;
 use App\Filament\Widgets\EmployeesByDepartmentChart;
+use App\Filament\Widgets\PostStats;
+use App\Filament\Widgets\PostsByStatusChart;
 
 class AdminPanelProvider extends PanelProvider
 {
@@ -43,7 +45,9 @@ class AdminPanelProvider extends PanelProvider
                 AccountWidget::class,
                 FilamentInfoWidget::class,
                 EmployeeStats::class,
+                PostStats::class,
                 EmployeesByDepartmentChart::class,
+                PostsByStatusChart::class,
             ])
             ->middleware([
                 EncryptCookies::class,

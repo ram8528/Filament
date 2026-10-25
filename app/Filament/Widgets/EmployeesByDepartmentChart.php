@@ -13,6 +13,10 @@ class EmployeesByDepartmentChart extends ChartWidget
 
     protected ?string $maxHeight = '300px';
 
+    protected int|string|array $columnSpan = 1;
+
+    protected static ?int $sort = 2;
+
     protected function getData(): array
     {
         $departments = \App\Models\Department::query()
@@ -51,7 +55,11 @@ class EmployeesByDepartmentChart extends ChartWidget
         ];
     }
 
-
+    public function getColumnSpan(): int|string|array
+    {
+        return 1;
+    }
+    
     protected function getType(): string
     {
         return 'doughnut';
