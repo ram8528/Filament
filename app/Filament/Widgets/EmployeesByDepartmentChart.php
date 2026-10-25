@@ -15,7 +15,7 @@ class EmployeesByDepartmentChart extends ChartWidget
 
     protected function getData(): array
     {
-        $departments = Department::query()
+        $departments = \App\Models\Department::query()
             ->withCount('employees')
             ->orderBy('name')
             ->get();
@@ -26,15 +26,31 @@ class EmployeesByDepartmentChart extends ChartWidget
                     'label' => 'Employees',
                     'data' => $departments
                         ->pluck('employees_count')
-                        ->map(fn ($count) => (int) $count)
+                        ->map(fn($count) => (int) $count)
                         ->all(),
+
+                    'backgroundColor' => [
+                        '#3B82F6', // Blue
+                        '#10B981', // Green
+                        '#F59E0B', // Amber
+                        '#8B5CF6', // Purple
+                        '#F43F5E', // Rose
+                        '#06B6D4', // Cyan
+                        '#F97316', // Orange
+                        '#64748B', // Slate
+                    ],
+
+                    'borderColor' => '#FFFFFF',
+                    'borderWidth' => 2,
                 ],
             ],
+
             'labels' => $departments
                 ->pluck('name')
                 ->all(),
         ];
     }
+
 
     protected function getType(): string
     {
