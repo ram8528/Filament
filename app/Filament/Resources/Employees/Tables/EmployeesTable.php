@@ -31,9 +31,11 @@ class EmployeesTable
                     ->copyable()
                     ->placeholder('—'),
 
-                TextColumn::make('department')
+                TextColumn::make('departmentRelation.name')
+                    ->label('Department')
                     ->searchable()
-                    ->sortable(),
+                    ->sortable()
+                    ->placeholder('Not assigned'),
 
                 TextColumn::make('designation')
                     ->searchable()
@@ -42,8 +44,8 @@ class EmployeesTable
                 TextColumn::make('salary')
                     ->label('Monthly Salary')
                     ->formatStateUsing(
-                        fn ($state): string =>
-                            '₹ ' . number_format((float) $state, 2)
+                        fn($state): string =>
+                        '₹ ' . number_format((float) $state, 2)
                     )
                     ->sortable()
                     ->alignment('end'),
@@ -55,15 +57,15 @@ class EmployeesTable
                 TextColumn::make('status')
                     ->badge()
                     ->formatStateUsing(
-                        fn ($state): string =>
-                            match ($state) {
-                                'active' => 'Active',
-                                'on_leave' => 'On Leave',
-                                'inactive' => 'Inactive',
-                                default => ucfirst((string) $state),
-                            }
+                        fn($state): string =>
+                        match ($state) {
+                            'active' => 'Active',
+                            'on_leave' => 'On Leave',
+                            'inactive' => 'Inactive',
+                            default => ucfirst((string) $state),
+                        }
                     )
-                    ->color(fn ($state): string => match ($state) {
+                    ->color(fn($state): string => match ($state) {
                         'active' => 'success',
                         'on_leave' => 'warning',
                         'inactive' => 'danger',

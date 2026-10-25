@@ -7,6 +7,7 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
+use Illuminate\Database\Eloquent\Builder;
 
 class EmployeeForm
 {
@@ -47,15 +48,14 @@ class EmployeeForm
                 ->icon('heroicon-o-briefcase')
                 ->columns(2)
                 ->schema([
-                    Select::make('department')
-                        ->options([
-                            'Engineering' => 'Engineering',
-                            'Human Resources' => 'Human Resources',
-                            'Finance' => 'Finance',
-                            'Sales' => 'Sales',
-                            'Marketing' => 'Marketing',
-                            'Operations' => 'Operations',
-                        ])
+                    Select::make('department_id')
+                        ->label('Department')
+                        ->relationship(
+                            name: 'departmentRelation',
+                            titleAttribute: 'name',
+                            modifyQueryUsing: fn(Builder $query) => $query
+                                ->where('is_active', true),
+                        )
                         ->searchable()
                         ->preload()
                         ->required()
