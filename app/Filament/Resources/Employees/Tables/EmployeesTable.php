@@ -37,9 +37,11 @@ class EmployeesTable
                     ->sortable()
                     ->placeholder('Not assigned'),
 
-                TextColumn::make('designation')
+                TextColumn::make('designationRelation.name')
+                    ->label('Designation')
                     ->searchable()
-                    ->sortable(),
+                    ->sortable()
+                    ->placeholder('Not assigned'),
 
                 TextColumn::make('salary')
                     ->label('Monthly Salary')

@@ -16,6 +16,7 @@ class Employee extends Model
         'salary',
         'joining_date',
         'status',
+        'designation_id',
     ];
 
     protected function casts(): array
@@ -29,5 +30,10 @@ class Employee extends Model
     public function departmentRelation(): BelongsTo
     {
         return $this->belongsTo(Department::class, 'department_id');
+    }
+
+    public function designationRelation(): BelongsTo
+    {
+        return $this->belongsTo(Designation::class, 'designation_id');
     }
 }
