@@ -26,18 +26,27 @@ class PostForm
                     ),
                 TextInput::make('slug')
                     ->required(),
-                TextInput::make('excerpt'),
+                TextInput::make('excerpt')
+                    ->maxLength(250),
                 Textarea::make('content')
                     ->required()
                     ->columnSpanFull(),
                 FileUpload::make('featured_image')
                     ->image(),
-                TextInput::make('status')
-                    ->required()
-                    ->default('draft'),
+                Select::make('status')
+                    ->options([
+                        'draft' => 'Draft',
+                        'published' => 'Published',
+                        'archived' => 'Archived',
+                    ])
+                    ->default('draft')
+                    ->required(),
                 DateTimePicker::make('published_at'),
                 Select::make('category_id')
-                    ->relationship('category', 'name'),
+                    ->relationship('category', 'name')
+                    ->searchable()
+                    ->preload()
+                    ->required(),
                 TextInput::make('user_id')
                     ->required()
                     ->numeric(),
